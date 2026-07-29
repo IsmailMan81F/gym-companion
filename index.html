@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Companion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gym Pulse</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,6 +27,14 @@
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Prevent scrolling on body when modal is open */
+        body.modal-open {
+            overflow: hidden !important;
+            height: 100vh !important;
+            touch-action: none !important;
+            overscroll-behavior: none !important;
         }
 
         body {
@@ -157,13 +165,24 @@
         }
 
         /* Card Header Image Styling */
+        .card-header-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background-color: var(--input-bg);
+        }
+
         .card-header-img {
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
-            border-bottom: 1px solid var(--card-border);
-            background-color: var(--input-bg);
             display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-header-img {
+            transform: scale(1.03);
         }
 
         .card-body {
@@ -187,7 +206,7 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             padding: 0 4px;
             transition: color 0.2s;
@@ -340,16 +359,24 @@
             gap: 8px;
         }
 
-        /* Modal styling */
+        /* Fixed Strict Modal Styling */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(19, 0, 41, 0.85);
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 0, 25, 0.88);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: flex-end;
-            z-index: 1000;
+            z-index: 99999;
+            touch-action: none; /* Prevents dragging outside modal */
+            pointer-events: auto;
         }
 
         .modal-overlay.active {
@@ -362,12 +389,14 @@
             border-radius: 24px 24px 0 0;
             width: 100%;
             max-width: 480px;
-            max-height: 80vh;
+            height: 82vh;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-            animation: slideUp 0.3s ease-out;
+            padding: 20px 18px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+            animation: slideUp 0.25s ease-out;
+            position: relative;
+            touch-action: auto;
         }
 
         @keyframes slideUp {
@@ -379,32 +408,40 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            flex-shrink: 0;
         }
 
         .modal-title {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 800;
         }
 
         .close-modal {
-            background: none;
-            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
             color: var(--text-muted);
-            font-size: 1.4rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .search-input {
             width: 100%;
             background: var(--input-bg);
             border: 1px solid var(--card-border);
-            padding: 12px;
+            padding: 12px 14px;
             border-radius: 12px;
             color: #FFF;
             font-size: 0.9rem;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             outline: none;
+            flex-shrink: 0;
         }
 
         .search-input:focus {
@@ -413,34 +450,62 @@
 
         .library-list {
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            padding-bottom: 20px;
+            touch-action: pan-y;
         }
 
         .library-item {
             background: var(--input-bg);
             border: 1px solid var(--card-border);
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
             cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
         }
 
         .library-item:hover {
             border-color: var(--accent);
+            background: rgba(255, 69, 0, 0.05);
+        }
+
+        .library-item-img {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--card-bg);
+        }
+
+        .item-info {
+            flex: 1;
         }
 
         .item-info h4 {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 700;
+            color: #FFF;
+            margin-bottom: 2px;
         }
 
         .item-info p {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
+        }
+
+        .add-icon-btn {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.3rem;
+            padding: 0 4px;
         }
 
         .icon {
@@ -483,17 +548,62 @@
 
     <!-- Library Modal -->
     <div class="modal-overlay" id="libraryModal">
-        <div class="modal-content">
+        <div class="modal-content" id="modalContent">
             <div class="modal-header">
                 <h3 class="modal-title">Exercise Library</h3>
                 <button class="close-modal" onclick="closeModal()">&times;</button>
             </div>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search exercises..." onkeyup="filterLibrary()">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search exercise or muscle..." onkeyup="filterLibrary()">
             <div class="library-list" id="libraryList"></div>
         </div>
     </div>
 
     <script>
+        // High Quality Real Image Resolver Function
+        function getImageForExercise(name, category, muscle) {
+            const n = name.toLowerCase();
+            const m = muscle.toLowerCase();
+
+            if (n.includes('bench press') || n.includes('chest press') || n.includes('barbell bench')) 
+                return 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('incline') || n.includes('fly') || n.includes('crossover') || n.includes('pec deck')) 
+                return 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('dip') || n.includes('push-up') || n.includes('pushup')) 
+                return 'https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('shoulder') || n.includes('overhead') || n.includes('military') || n.includes('arnold') || n.includes('landmine')) 
+                return 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('lateral') || n.includes('front raise') || n.includes('delt') || n.includes('upright row')) 
+                return 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80';
+            if (m.includes('triceps') || n.includes('pushdown') || n.includes('skull') || n.includes('kickback') || n.includes('extension')) 
+                return 'https://images.unsplash.com/photo-1530822847156-5df684611749?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('pull-up') || n.includes('chin-up') || n.includes('pulldown')) 
+                return 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('row')) 
+                return 'https://images.unsplash.com/photo-1603287681836-b174ce5074c2?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('deadlift') || n.includes('good morning') || n.includes('back extension') || n.includes('rack pull')) 
+                return 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80';
+            if (m.includes('biceps') || n.includes('curl')) 
+                return 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('squat') || n.includes('leg press') || n.includes('step up')) 
+                return 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('lunge') || n.includes('split squat')) 
+                return 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('leg extension') || n.includes('leg curl')) 
+                return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('calf') || n.includes('thrust') || n.includes('glute')) 
+                return 'https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('run') || n.includes('treadmill') || n.includes('walk') || n.includes('stair') || n.includes('elliptical') || n.includes('hiit') || n.includes('jump rope')) 
+                return 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('bike') || n.includes('cycling')) 
+                return 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=800&q=80';
+            if (n.includes('rowing')) 
+                return 'https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?auto=format&fit=crop&w=800&q=80';
+            if (category === 'cardio' || m.includes('abs') || m.includes('core') || n.includes('plank') || n.includes('crunch') || n.includes('v-up') || n.includes('twist') || n.includes('woodchopper')) 
+                return 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80';
+
+            return 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80';
+        }
+
         // MASTER EXERCISE LIBRARY DYNAMIC DATA
         const EXERCISE_LIBRARY = [
             // PUSH
@@ -623,43 +733,48 @@
             { name: "Farmer's Walk", category: "cardio", muscle: "Grip, Core", equipment: "Heavy Dumbbells" }
         ];
 
+        // Attach dynamic real images to full library
+        EXERCISE_LIBRARY.forEach(item => {
+            item.image = getImageForExercise(item.name, item.category, item.muscle);
+        });
+
         // Initial Workout State
         let workouts = {
             push: [
-                createExerciseObject("Incline Dumbbell Press", "Upper Chest", "Incline Bench & Dumbbells"),
-                createExerciseObject("Dumbbell Lateral Raise", "Side Delts", "Dumbbells"),
-                createExerciseObject("Triceps Pushdown", "Triceps", "Cable Machine")
+                createExerciseObject("Incline Dumbbell Press", "push", "Upper Chest", "Incline Bench & Dumbbells"),
+                createExerciseObject("Dumbbell Lateral Raise", "push", "Side Delts", "Dumbbells"),
+                createExerciseObject("Triceps Pushdown", "push", "Triceps", "Cable Machine")
             ],
             pull: [
-                createExerciseObject("Lat Pulldown", "Lats", "Lat Pulldown Station"),
-                createExerciseObject("Seated Cable Row", "Mid Back", "Seated Row Machine"),
-                createExerciseObject("Barbell Curl", "Biceps", "Barbell")
+                createExerciseObject("Lat Pulldown", "pull", "Lats", "Lat Pulldown Station"),
+                createExerciseObject("Seated Cable Row", "pull", "Mid Back", "Seated Row Machine"),
+                createExerciseObject("Barbell Curl", "pull", "Biceps", "Barbell")
             ],
             legs: [
-                createExerciseObject("Barbell Squat", "Quads, Glutes", "Squat Rack & Barbell"),
-                createExerciseObject("Seated Leg Curl", "Hamstrings", "Seated Leg Curl Machine"),
-                createExerciseObject("Standing Calf Raise", "Calves", "Calf Machine")
+                createExerciseObject("Barbell Squat", "legs", "Quads, Glutes", "Squat Rack & Barbell"),
+                createExerciseObject("Seated Leg Curl", "legs", "Hamstrings", "Seated Leg Curl Machine"),
+                createExerciseObject("Standing Calf Raise", "legs", "Calves", "Calf Machine")
             ],
             cardio: [
-                createExerciseObject("Incline Walking", "Cardio", "Treadmill"),
-                createExerciseObject("Hanging Leg Raises", "Lower Abs", "Pull-up Bar"),
-                createExerciseObject("Plank", "Core Stability", "Mat")
+                createExerciseObject("Incline Walking", "cardio", "Cardio", "Treadmill"),
+                createExerciseObject("Hanging Leg Raises", "cardio", "Lower Abs", "Pull-up Bar"),
+                createExerciseObject("Plank", "cardio", "Core Stability", "Mat")
             ]
         };
 
         let currentDay = 'push';
 
-        // Helper function to create an exercise object with image placeholder
-        function createExerciseObject(name, muscle, equipment, customImage) {
-            // YOU CAN REPLACE THIS PLACEHOLDER URL WITH YOUR OWN IMAGE LINK OR PATH
-            const placeholder = `https://placehold.co/600x300/27064d/FF4500?text=${encodeURIComponent(name)}`;
+        // Helper function to create exercise object with real high quality image
+        function createExerciseObject(name, category, muscle, equipment) {
+            const realImg = getImageForExercise(name, category, muscle);
             
             return {
                 id: 'ex_' + Math.random().toString(36).substr(2, 9),
                 name: name,
+                category: category,
                 muscle: muscle,
                 machine: equipment,
-                image: customImage || placeholder,
+                image: realImg,
                 yt: `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' form tutorial')}`,
                 sets: [
                     { weight: 20, reps: 10, done: false },
@@ -669,14 +784,26 @@
         }
 
         function loadState() {
-            const saved = localStorage.getItem('gym_pulse_v3_data');
+            const saved = localStorage.getItem('gym_pulse_v4_data');
             if (saved) {
-                workouts = JSON.parse(saved);
+                try {
+                    workouts = JSON.parse(saved);
+                    // Automatically upgrade older placeholder images if existing
+                    Object.keys(workouts).forEach(day => {
+                        workouts[day].forEach(ex => {
+                            if (!ex.image || ex.image.includes('placehold.co')) {
+                                ex.image = getImageForExercise(ex.name, ex.category || day, ex.muscle || '');
+                            }
+                        });
+                    });
+                } catch(e) {
+                    console.error("Failed to parse saved state", e);
+                }
             }
         }
 
         function saveState() {
-            localStorage.setItem('gym_pulse_v3_data', JSON.stringify(workouts));
+            localStorage.setItem('gym_pulse_v4_data', JSON.stringify(workouts));
         }
 
         function setDate() {
@@ -698,8 +825,10 @@
             const listContainer = document.getElementById('exerciseList');
             listContainer.innerHTML = currentExercises.map((ex, exIdx) => `
                 <div class="card">
-                    <!-- EXERCISE IMAGE PLACEHOLDER -->
-                    <img src="${ex.image}" alt="${ex.name}" class="card-header-img" loading="lazy">
+                    <!-- EXERCISE REAL IMAGE -->
+                    <div class="card-header-img-wrapper">
+                        <img src="${ex.image}" alt="${ex.name}" class="card-header-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80'">
+                    </div>
                     
                     <div class="card-body">
                         <div class="card-title-row">
@@ -784,26 +913,43 @@
             render();
         }
 
-        /* Modal & Library Logic */
+        /* Modal & Library Logic with Strict Lock */
         function openModal() {
+            document.body.classList.add('modal-open');
             document.getElementById('libraryModal').classList.add('active');
             renderLibrary(EXERCISE_LIBRARY);
         }
 
         function closeModal() {
+            document.body.classList.remove('modal-open');
             document.getElementById('libraryModal').classList.remove('active');
             document.getElementById('searchInput').value = '';
         }
 
+        // Close on background click outside modal content
+        document.getElementById('libraryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Block background scroll touch move events
+        document.getElementById('libraryModal').addEventListener('touchmove', function(e) {
+            if (!e.target.closest('.library-list')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
         function renderLibrary(items) {
             const container = document.getElementById('libraryList');
             container.innerHTML = items.map(item => `
-                <div class="library-item" onclick="selectFromLibrary('${item.name.replace(/'/g, "\\'")}', '${item.muscle}', '${item.equipment}')">
+                <div class="library-item" onclick="selectFromLibrary('${item.name.replace(/'/g, "\\'")}', '${item.category}', '${item.muscle.replace(/'/g, "\\'")}', '${item.equipment.replace(/'/g, "\\'")}')">
+                    <img src="${item.image}" class="library-item-img" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80'">
                     <div class="item-info">
                         <h4>${item.name}</h4>
                         <p>${item.muscle} • ${item.equipment}</p>
                     </div>
-                    <span style="color:var(--accent); font-weight:bold; font-size:1.2rem;">+</span>
+                    <span class="add-icon-btn">+</span>
                 </div>
             `).join('');
         }
@@ -812,13 +958,14 @@
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = EXERCISE_LIBRARY.filter(ex => 
                 ex.name.toLowerCase().includes(query) || 
-                ex.muscle.toLowerCase().includes(query)
+                ex.muscle.toLowerCase().includes(query) ||
+                ex.equipment.toLowerCase().includes(query)
             );
             renderLibrary(filtered);
         }
 
-        function selectFromLibrary(name, muscle, equipment) {
-            const newEx = createExerciseObject(name, muscle, equipment);
+        function selectFromLibrary(name, category, muscle, equipment) {
+            const newEx = createExerciseObject(name, category || currentDay, muscle, equipment);
             workouts[currentDay].push(newEx);
             saveState();
             render();
