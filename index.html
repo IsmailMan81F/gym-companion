@@ -382,6 +382,28 @@
             background: rgba(255, 69, 0, 0.05);
         }
 
+        /* Clear Exercise List Button */
+        .clear-list-btn {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 14px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .clear-list-btn:hover {
+            border-color: var(--danger);
+            background: var(--danger-light);
+        }
+
         /* Fixed Strict Modal Styling */
         .modal-overlay {
             position: fixed;
@@ -571,6 +593,11 @@
         <!-- Set Default Exercises Button -->
         <button class="default-exercise-btn" onclick="setDefaultExercises()">
             ⚡ Set Default Exercises
+        </button>
+
+        <!-- Clear List Button -->
+        <button class="clear-list-btn" onclick="clearList()">
+            🗑️ Clear List
         </button>
     </div>
 
@@ -906,6 +933,13 @@
             workouts[currentDay] = defaultList.map(item => 
                 createExerciseObject(item.name, item.category, item.muscle, item.equipment)
             );
+            saveState();
+            render();
+        }
+
+        /* Clear Exercise List according to active day */
+        function clearList() {
+            workouts[currentDay] = [];
             saveState();
             render();
         }
