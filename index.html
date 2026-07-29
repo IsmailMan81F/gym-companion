@@ -359,6 +359,29 @@
             gap: 8px;
         }
 
+        /* Set Default Exercises Button */
+        .default-exercise-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 14px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .default-exercise-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 69, 0, 0.05);
+        }
+
         /* Fixed Strict Modal Styling */
         .modal-overlay {
             position: fixed;
@@ -375,7 +398,7 @@
             justify-content: center;
             align-items: flex-end;
             z-index: 99999;
-            touch-action: none; /* Prevents dragging outside modal */
+            touch-action: none;
             pointer-events: auto;
         }
 
@@ -543,6 +566,11 @@
         <!-- Add Exercise Button -->
         <button class="add-exercise-btn" onclick="openModal()">
             <span>+</span> Add Exercise from Library
+        </button>
+
+        <!-- Set Default Exercises Button -->
+        <button class="default-exercise-btn" onclick="setDefaultExercises()">
+            ⚡ Set Default Exercises
         </button>
     </div>
 
@@ -870,6 +898,16 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        /* Set Default Exercises according to active day */
+        function setDefaultExercises() {
+            const defaultList = EXERCISE_LIBRARY.filter(item => item.category === currentDay);
+            workouts[currentDay] = defaultList.map(item => 
+                createExerciseObject(item.name, item.category, item.muscle, item.equipment)
+            );
+            saveState();
+            render();
         }
 
         /* UI Handlers */
