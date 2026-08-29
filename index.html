@@ -244,105 +244,6 @@
             gap: 6px;
         }
 
-        /* Sets Table Grid */
-        .sets-header {
-            display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 0.6fr 0.4fr;
-            gap: 6px;
-            text-align: center;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .set-row {
-            display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 0.6fr 0.4fr;
-            gap: 6px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .set-num {
-            text-align: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-muted);
-        }
-
-        .set-input {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 8px 4px;
-            color: #FFF;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 700;
-            outline: none;
-        }
-
-        .set-input:focus {
-            border-color: var(--accent);
-        }
-
-        .check-btn {
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            border-radius: 8px;
-            padding: 8px 0;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .check-btn.done {
-            background: var(--accent);
-            color: #FFF;
-            border-color: var(--accent);
-        }
-
-        .delete-set-btn {
-            background: transparent;
-            border: none;
-            color: #776590;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 6px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: color 0.2s;
-        }
-
-        .delete-set-btn:hover {
-            color: var(--danger);
-        }
-
-        .add-set-btn {
-            width: 100%;
-            background: transparent;
-            border: 1px dashed var(--card-border);
-            color: var(--text-muted);
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .add-set-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
         .add-exercise-btn {
             background: var(--accent);
             color: #FFF;
@@ -573,7 +474,6 @@
             <button class="nav-btn active" onclick="switchDay('push')">Push Day</button>
             <button class="nav-btn" onclick="switchDay('pull')">Pull Day</button>
             <button class="nav-btn" onclick="switchDay('legs')">Legs Day</button>
-            <button class="nav-btn" onclick="switchDay('cardio')">Cardio & Abs</button>
         </div>
 
         <!-- Targeted Muscles -->
@@ -621,24 +521,24 @@
 
             if (n.includes('bench press') || n.includes('chest press') || n.includes('barbell bench')) 
                 return 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80';
+            if (m.includes('biceps') || n.includes('curl')) 
+                return 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80';
+            if (m.includes('triceps') || n.includes('pushdown') || n.includes('skull') || n.includes('kickback') || n.includes('triceps extension')) 
+                return 'https://images.unsplash.com/photo-1530822847156-5df684611749?auto=format&fit=crop&w=800&q=80';
             if (n.includes('incline') || n.includes('fly') || n.includes('crossover') || n.includes('pec deck')) 
                 return 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80';
             if (n.includes('dip') || n.includes('push-up') || n.includes('pushup')) 
                 return 'https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=800&q=80';
             if (n.includes('shoulder') || n.includes('overhead') || n.includes('military') || n.includes('arnold') || n.includes('landmine')) 
                 return 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80';
-            if (n.includes('lateral') || n.includes('front raise') || n.includes('delt') || n.includes('upright row')) 
+            if (n.includes('lateral') || n.includes('front raise') || n.includes('delt') || n.includes('upright row') || n.includes('face pull') || n.includes('shrug')) 
                 return 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80';
-            if (m.includes('triceps') || n.includes('pushdown') || n.includes('skull') || n.includes('kickback') || n.includes('extension')) 
-                return 'https://images.unsplash.com/photo-1530822847156-5df684611749?auto=format&fit=crop&w=800&q=80';
-            if (n.includes('pull-up') || n.includes('chin-up') || n.includes('pulldown')) 
+            if (n.includes('pull-up') || n.includes('pull up') || n.includes('chin-up') || n.includes('pulldown')) 
                 return 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=800&q=80';
             if (n.includes('row')) 
                 return 'https://images.unsplash.com/photo-1603287681836-b174ce5074c2?auto=format&fit=crop&w=800&q=80';
             if (n.includes('deadlift') || n.includes('good morning') || n.includes('back extension') || n.includes('rack pull')) 
                 return 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80';
-            if (m.includes('biceps') || n.includes('curl')) 
-                return 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80';
             if (n.includes('squat') || n.includes('leg press') || n.includes('step up')) 
                 return 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80';
             if (n.includes('lunge') || n.includes('split squat')) 
@@ -661,131 +561,51 @@
 
         // MASTER EXERCISE LIBRARY DYNAMIC DATA
         const EXERCISE_LIBRARY = [
-            // PUSH
-            { name: "Bench Press (Barbell)", category: "push", muscle: "Chest", equipment: "Barbell & Bench" },
-            { name: "Incline Bench Press", category: "push", muscle: "Upper Chest", equipment: "Incline Bench & Barbell" },
-            { name: "Decline Bench Press", category: "push", muscle: "Lower Chest", equipment: "Decline Bench" },
+            // PUSH — Top Chest Exercises
+            { name: "Barbell Bench Press", category: "push", muscle: "Chest", equipment: "Barbell & Bench" },
             { name: "Dumbbell Bench Press", category: "push", muscle: "Chest", equipment: "Flat Bench & Dumbbells" },
-            { name: "Incline Dumbbell Press", category: "push", muscle: "Upper Chest", equipment: "Incline Bench & Dumbbells" },
-            { name: "Chest Press Machine", category: "push", muscle: "Chest", equipment: "Chest Press Machine" },
-            { name: "Smith Machine Bench Press", category: "push", muscle: "Chest", equipment: "Smith Machine" },
-            { name: "Cable Chest Press", category: "push", muscle: "Chest", equipment: "Cable Station" },
-            { name: "Cable Crossover", category: "push", muscle: "Chest", equipment: "Dual Cable Station" },
-            { name: "Pec Deck Fly", category: "push", muscle: "Chest", equipment: "Pec Deck Machine" },
-            { name: "Dumbbell Fly", category: "push", muscle: "Chest", equipment: "Flat Bench & Dumbbells" },
-            { name: "Incline Dumbbell Fly", category: "push", muscle: "Upper Chest", equipment: "Incline Bench & Dumbbells" },
-            { name: "Push-ups", category: "push", muscle: "Chest, Triceps", equipment: "Bodyweight" },
-            { name: "Weighted Push-ups", category: "push", muscle: "Chest", equipment: "Weight Plate" },
-            { name: "Chest Dips", category: "push", muscle: "Lower Chest", equipment: "Dip Bars" },
-            { name: "Overhead Barbell Press", category: "push", muscle: "Shoulders", equipment: "Barbell" },
-            { name: "Military Press", category: "push", muscle: "Front Delts", equipment: "Barbell" },
-            { name: "Dumbbell Shoulder Press", category: "push", muscle: "Shoulders", equipment: "Dumbbells" },
-            { name: "Arnold Press", category: "push", muscle: "Shoulders", equipment: "Dumbbells" },
-            { name: "Machine Shoulder Press", category: "push", muscle: "Shoulders", equipment: "Shoulder Press Machine" },
-            { name: "Landmine Press", category: "push", muscle: "Front Delts", equipment: "Landmine Attachment" },
-            { name: "Front Raise", category: "push", muscle: "Front Delts", equipment: "Dumbbells / Cables" },
-            { name: "Dumbbell Lateral Raise", category: "push", muscle: "Side Delts", equipment: "Dumbbells" },
-            { name: "Cable Lateral Raise", category: "push", muscle: "Side Delts", equipment: "Cable Machine" },
-            { name: "Machine Lateral Raise", category: "push", muscle: "Side Delts", equipment: "Lateral Raise Machine" },
-            { name: "Leaning Lateral Raise", category: "push", muscle: "Side Delts", equipment: "Dumbbell & Rig" },
-            { name: "Upright Row", category: "push", muscle: "Side Delts, Traps", equipment: "Barbell / Cable" },
-            { name: "Reverse Pec Deck", category: "push", muscle: "Rear Delts", equipment: "Pec Deck Machine" },
-            { name: "Rear Delt Fly", category: "push", muscle: "Rear Delts", equipment: "Dumbbells" },
-            { name: "Cable Rear Delt Fly", category: "push", muscle: "Rear Delts", equipment: "Cable Machine" },
-            { name: "Face Pull", category: "push", muscle: "Rear Delts, Upper Back", equipment: "Cable / Rope" },
-            { name: "Triceps Pushdown", category: "push", muscle: "Triceps", equipment: "Cable Machine" },
-            { name: "Rope Pushdown", category: "push", muscle: "Triceps", equipment: "Cable & Rope" },
-            { name: "Straight Bar Pushdown", category: "push", muscle: "Triceps", equipment: "Cable & Straight Bar" },
+            { name: "Incline Press", category: "push", muscle: "Upper Chest", equipment: "Incline Bench & Barbell/Dumbbells" },
+            { name: "Chest Dips", category: "push", muscle: "Lower Chest, Front Shoulders", equipment: "Dip Bars" },
+            { name: "Cable Flyes", category: "push", muscle: "Chest", equipment: "Cable Machine" },
+
+            // PUSH — Top Shoulder Exercises
+            { name: "Overhead Press", category: "push", muscle: "Shoulders", equipment: "Barbell / Dumbbells" },
+            { name: "Lateral Raises", category: "push", muscle: "Side Delts", equipment: "Dumbbells / Cables" },
+
+            // PUSH — Top Tricep Exercises
+            { name: "Tricep Pushdowns", category: "push", muscle: "Triceps", equipment: "Cable Machine & Rope/Bar" },
             { name: "Overhead Triceps Extension", category: "push", muscle: "Triceps", equipment: "Cable / Dumbbell" },
-            { name: "Skull Crushers", category: "push", muscle: "Triceps", equipment: "EZ Bar & Bench" },
-            { name: "Close Grip Bench Press", category: "push", muscle: "Triceps, Chest", equipment: "Barbell & Bench" },
-            { name: "Triceps Dips", category: "push", muscle: "Triceps", equipment: "Dip Station" },
-            { name: "Dumbbell Kickbacks", category: "push", muscle: "Triceps", equipment: "Dumbbells" },
-            { name: "JM Press", category: "push", muscle: "Triceps", equipment: "Barbell" },
-            { name: "Machine Triceps Extension", category: "push", muscle: "Triceps", equipment: "Triceps Machine" },
+            { name: "Skull Crushers", category: "push", muscle: "Triceps", equipment: "EZ Bar / Dumbbells" },
 
-            // PULL
-            { name: "Pull-ups", category: "pull", muscle: "Lats, Upper Back", equipment: "Pull-up Bar" },
-            { name: "Chin-ups", category: "pull", muscle: "Lats, Biceps", equipment: "Pull-up Bar" },
-            { name: "Weighted Pull-ups", category: "pull", muscle: "Lats", equipment: "Dip Belt / Dumbbell" },
-            { name: "Lat Pulldown", category: "pull", muscle: "Lats", equipment: "Lat Pulldown Station" },
-            { name: "Close Grip Lat Pulldown", category: "pull", muscle: "Lats", equipment: "V-Bar Attachment" },
-            { name: "Wide Grip Lat Pulldown", category: "pull", muscle: "Lats", equipment: "Wide Bar Attachment" },
-            { name: "Single Arm Lat Pulldown", category: "pull", muscle: "Lats", equipment: "Cable Handle" },
-            { name: "Barbell Row", category: "pull", muscle: "Upper Back, Lats", equipment: "Barbell" },
-            { name: "Pendlay Row", category: "pull", muscle: "Back", equipment: "Barbell" },
-            { name: "Dumbbell Row", category: "pull", muscle: "Lats", equipment: "Dumbbell & Bench" },
-            { name: "Chest Supported Row", category: "pull", muscle: "Upper Back", equipment: "Incline Bench & Dumbbells" },
-            { name: "Seated Cable Row", category: "pull", muscle: "Mid Back, Lats", equipment: "Seated Row Machine" },
-            { name: "T-Bar Row", category: "pull", muscle: "Back", equipment: "T-Bar Machine" },
-            { name: "Machine Row", category: "pull", muscle: "Back", equipment: "Row Machine" },
-            { name: "Inverted Row", category: "pull", muscle: "Upper Back", equipment: "Smith Machine / Bar" },
-            { name: "Deadlift", category: "pull", muscle: "Entire Posterior Chain", equipment: "Barbell" },
-            { name: "Romanian Deadlift", category: "pull", muscle: "Hamstrings, Glutes", equipment: "Barbell / Dumbbells" },
-            { name: "Rack Pull", category: "pull", muscle: "Upper Back, Lower Back", equipment: "Barbell & Power Rack" },
-            { name: "Back Extension", category: "pull", muscle: "Lower Back, Glutes", equipment: "Hyperextension Bench" },
-            { name: "Good Morning", category: "pull", muscle: "Hamstrings, Lower Back", equipment: "Barbell" },
-            { name: "Barbell Curl", category: "pull", muscle: "Biceps", equipment: "Barbell" },
-            { name: "EZ Bar Curl", category: "pull", muscle: "Biceps", equipment: "EZ Curl Bar" },
-            { name: "Dumbbell Curl", category: "pull", muscle: "Biceps", equipment: "Dumbbells" },
-            { name: "Hammer Curl", category: "pull", muscle: "Biceps, Brachialis", equipment: "Dumbbells" },
-            { name: "Incline Dumbbell Curl", category: "pull", muscle: "Biceps", equipment: "Incline Bench & Dumbbells" },
-            { name: "Preacher Curl", category: "pull", muscle: "Biceps", equipment: "Preacher Bench & Bar" },
-            { name: "Cable Curl", category: "pull", muscle: "Biceps", equipment: "Cable Machine" },
-            { name: "Concentration Curl", category: "pull", muscle: "Biceps", equipment: "Dumbbell" },
-            { name: "Spider Curl", category: "pull", muscle: "Biceps", equipment: "Incline Bench & Dumbbell" },
-            { name: "Reverse Curl", category: "pull", muscle: "Forearms, Biceps", equipment: "Barbell / EZ Bar" },
+            // PULL — Top Back Exercises
+            { name: "Deadlifts", category: "pull", muscle: "Lower Back, Traps, Lats", equipment: "Barbell" },
+            { name: "Pull-Ups or Lat Pulldowns", category: "pull", muscle: "Lats, Back Width", equipment: "Pull-up Bar / Lat Pulldown Station" },
+            { name: "Bent-Over Barbell Rows", category: "pull", muscle: "Back Thickness, Mid-Back", equipment: "Barbell" },
+            { name: "Seated Cable Rows", category: "pull", muscle: "Lats, Rhomboids", equipment: "Seated Row Machine" },
 
-            // LEGS
-            { name: "Barbell Squat", category: "legs", muscle: "Quads, Glutes", equipment: "Squat Rack & Barbell" },
-            { name: "Front Squat", category: "legs", muscle: "Quads", equipment: "Barbell" },
-            { name: "Hack Squat", category: "legs", muscle: "Quads", equipment: "Hack Squat Machine" },
+            // PULL — Top Bicep Exercises
+            { name: "Barbell Curls", category: "pull", muscle: "Biceps", equipment: "Barbell" },
+            { name: "Hammer Curls", category: "pull", muscle: "Biceps, Brachialis", equipment: "Dumbbells" },
+            { name: "Incline Dumbbell Curls", category: "pull", muscle: "Biceps (Long Head)", equipment: "Incline Bench & Dumbbells" },
+
+            // PULL — Top Rear Shoulder & Trap Exercises
+            { name: "Face Pulls", category: "pull", muscle: "Rear Delts, Upper Back, Rotator Cuffs", equipment: "Cable & Rope" },
+            { name: "Dumbbell Shrugs", category: "pull", muscle: "Upper Traps", equipment: "Dumbbells" },
+
+            // LEGS — Top Quad & Glute Exercises
+            { name: "Barbell Back Squats", category: "legs", muscle: "Quads, Glutes", equipment: "Squat Rack & Barbell" },
             { name: "Leg Press", category: "legs", muscle: "Quads, Glutes", equipment: "Leg Press Machine" },
-            { name: "Bulgarian Split Squat", category: "legs", muscle: "Quads, Glutes", equipment: "Bench & Dumbbells" },
-            { name: "Lunges", category: "legs", muscle: "Quads, Glutes", equipment: "Dumbbells" },
+            { name: "Bulgarian Split Squats", category: "legs", muscle: "Quads, Glutes", equipment: "Bench & Dumbbells" },
             { name: "Walking Lunges", category: "legs", muscle: "Quads, Glutes", equipment: "Dumbbells" },
-            { name: "Leg Extension", category: "legs", muscle: "Quads", equipment: "Leg Extension Machine" },
-            { name: "Step Ups", category: "legs", muscle: "Quads, Glutes", equipment: "Box & Dumbbells" },
-            { name: "Stiff Leg Deadlift", category: "legs", muscle: "Hamstrings", equipment: "Barbell" },
-            { name: "Leg Curl", category: "legs", muscle: "Hamstrings", equipment: "Leg Curl Machine" },
-            { name: "Seated Leg Curl", category: "legs", muscle: "Hamstrings", equipment: "Seated Leg Curl Machine" },
-            { name: "Lying Leg Curl", category: "legs", muscle: "Hamstrings", equipment: "Lying Leg Curl Machine" },
-            { name: "Nordic Curl", category: "legs", muscle: "Hamstrings", equipment: "Bodyweight / Ankle Pad" },
-            { name: "Hip Thrust", category: "legs", muscle: "Glutes", equipment: "Bench & Barbell" },
-            { name: "Glute Bridge", category: "legs", muscle: "Glutes", equipment: "Mat & Weight Plate" },
-            { name: "Cable Kickback", category: "legs", muscle: "Glutes", equipment: "Cable Machine & Ankle Strap" },
-            { name: "Standing Calf Raise", category: "legs", muscle: "Calves", equipment: "Standing Calf Machine" },
-            { name: "Seated Calf Raise", category: "legs", muscle: "Calves", equipment: "Seated Calf Machine" },
-            { name: "Donkey Calf Raise", category: "legs", muscle: "Calves", equipment: "Donkey Calf Machine" },
-            { name: "Leg Press Calf Raise", category: "legs", muscle: "Calves", equipment: "Leg Press Machine" },
-            { name: "Single Leg Calf Raise", category: "legs", muscle: "Calves", equipment: "Dumbbell" },
 
-            // CARDIO & ABS
-            { name: "Treadmill Running", category: "cardio", muscle: "Cardiovascular System", equipment: "Treadmill" },
-            { name: "Incline Walking", category: "cardio", muscle: "Cardio, Legs", equipment: "Treadmill" },
-            { name: "Cycling", category: "cardio", muscle: "Cardio, Quads", equipment: "Stationary Bike" },
-            { name: "Stair Climber", category: "cardio", muscle: "Cardio, Glutes", equipment: "Stairmaster" },
-            { name: "Rowing Machine", category: "cardio", muscle: "Cardio, Back", equipment: "Rowing Machine" },
-            { name: "Elliptical", category: "cardio", muscle: "Cardio", equipment: "Elliptical Machine" },
-            { name: "Assault Bike", category: "cardio", muscle: "Cardio, Full Body", equipment: "Air Bike" },
-            { name: "Jump Rope", category: "cardio", muscle: "Cardio, Calves", equipment: "Jump Rope" },
-            { name: "HIIT Training", category: "cardio", muscle: "Cardio, Full Body", equipment: "Mat / Bodyweight" },
-            { name: "Crunches", category: "cardio", muscle: "Upper Abs", equipment: "Mat" },
-            { name: "Cable Crunch", category: "cardio", muscle: "Upper Abs", equipment: "Cable & Rope" },
-            { name: "Machine Crunch", category: "cardio", muscle: "Upper Abs", equipment: "Ab Machine" },
-            { name: "Sit-ups", category: "cardio", muscle: "Upper Abs", equipment: "Mat" },
-            { name: "Weighted Crunch", category: "cardio", muscle: "Upper Abs", equipment: "Weight Plate" },
-            { name: "Leg Raises", category: "cardio", muscle: "Lower Abs", equipment: "Mat" },
-            { name: "Hanging Leg Raises", category: "cardio", muscle: "Lower Abs", equipment: "Pull-up Bar" },
-            { name: "Reverse Crunch", category: "cardio", muscle: "Lower Abs", equipment: "Mat" },
-            { name: "V-Ups", category: "cardio", muscle: "Abs", equipment: "Mat" },
-            { name: "Russian Twist", category: "cardio", muscle: "Obliques", equipment: "Mat / Weight" },
-            { name: "Side Plank", category: "cardio", muscle: "Obliques", equipment: "Mat" },
-            { name: "Cable Woodchopper", category: "cardio", muscle: "Obliques", equipment: "Cable Station" },
-            { name: "Plank", category: "cardio", muscle: "Core Stability", equipment: "Mat" },
-            { name: "Weighted Plank", category: "cardio", muscle: "Core Stability", equipment: "Weight Plate" },
-            { name: "Ab Wheel Rollout", category: "cardio", muscle: "Core", equipment: "Ab Roller" },
-            { name: "Farmer's Walk", category: "cardio", muscle: "Grip, Core", equipment: "Heavy Dumbbells" }
+            // LEGS — Top Hamstring & Glute Exercises
+            { name: "Romanian Deadlifts (RDLs)", category: "legs", muscle: "Hamstrings, Glutes", equipment: "Barbell / Dumbbells" },
+            { name: "Lying or Seated Leg Curls", category: "legs", muscle: "Hamstrings", equipment: "Leg Curl Machine" },
+            { name: "Hip Thrusts", category: "legs", muscle: "Glutes", equipment: "Bench & Barbell" },
+
+            // LEGS — Top Calf Exercises
+            { name: "Standing Calf Raises", category: "legs", muscle: "Calves (Gastrocnemius)", equipment: "Standing Calf Machine" },
+            { name: "Seated Calf Raises", category: "legs", muscle: "Calves (Soleus)", equipment: "Seated Calf Machine" }
         ];
 
         // Attach dynamic real images to full library
@@ -796,24 +616,37 @@
         // Initial Workout State
         let workouts = {
             push: [
-                createExerciseObject("Incline Dumbbell Press", "push", "Upper Chest", "Incline Bench & Dumbbells"),
-                createExerciseObject("Dumbbell Lateral Raise", "push", "Side Delts", "Dumbbells"),
-                createExerciseObject("Triceps Pushdown", "push", "Triceps", "Cable Machine")
+                createExerciseObject("Barbell Bench Press", "push", "Chest", "Barbell & Bench"),
+                createExerciseObject("Incline Press", "push", "Upper Chest", "Incline Bench & Barbell/Dumbbells"),
+                createExerciseObject("Chest Dips", "push", "Lower Chest, Front Shoulders", "Dip Bars"),
+                createExerciseObject("Cable Flyes", "push", "Chest", "Cable Machine"),
+                createExerciseObject("Overhead Press", "push", "Shoulders", "Barbell / Dumbbells"),
+                createExerciseObject("Lateral Raises", "push", "Side Delts", "Dumbbells / Cables"),
+                createExerciseObject("Tricep Pushdowns", "push", "Triceps", "Cable Machine & Rope/Bar"),
+                createExerciseObject("Overhead Triceps Extension", "push", "Triceps", "Cable / Dumbbell"),
+                createExerciseObject("Skull Crushers", "push", "Triceps", "EZ Bar / Dumbbells")
             ],
             pull: [
-                createExerciseObject("Lat Pulldown", "pull", "Lats", "Lat Pulldown Station"),
-                createExerciseObject("Seated Cable Row", "pull", "Mid Back", "Seated Row Machine"),
-                createExerciseObject("Barbell Curl", "pull", "Biceps", "Barbell")
+                createExerciseObject("Deadlifts", "pull", "Lower Back, Traps, Lats", "Barbell"),
+                createExerciseObject("Pull-Ups or Lat Pulldowns", "pull", "Lats, Back Width", "Pull-up Bar / Lat Pulldown Station"),
+                createExerciseObject("Bent-Over Barbell Rows", "pull", "Back Thickness, Mid-Back", "Barbell"),
+                createExerciseObject("Seated Cable Rows", "pull", "Lats, Rhomboids", "Seated Row Machine"),
+                createExerciseObject("Barbell Curls", "pull", "Biceps", "Barbell"),
+                createExerciseObject("Hammer Curls", "pull", "Biceps, Brachialis", "Dumbbells"),
+                createExerciseObject("Incline Dumbbell Curls", "pull", "Biceps (Long Head)", "Incline Bench & Dumbbells"),
+                createExerciseObject("Face Pulls", "pull", "Rear Delts, Upper Back, Rotator Cuffs", "Cable & Rope"),
+                createExerciseObject("Dumbbell Shrugs", "pull", "Upper Traps", "Dumbbells")
             ],
             legs: [
-                createExerciseObject("Barbell Squat", "legs", "Quads, Glutes", "Squat Rack & Barbell"),
-                createExerciseObject("Seated Leg Curl", "legs", "Hamstrings", "Seated Leg Curl Machine"),
-                createExerciseObject("Standing Calf Raise", "legs", "Calves", "Calf Machine")
-            ],
-            cardio: [
-                createExerciseObject("Incline Walking", "cardio", "Cardio", "Treadmill"),
-                createExerciseObject("Hanging Leg Raises", "cardio", "Lower Abs", "Pull-up Bar"),
-                createExerciseObject("Plank", "cardio", "Core Stability", "Mat")
+                createExerciseObject("Barbell Back Squats", "legs", "Quads, Glutes", "Squat Rack & Barbell"),
+                createExerciseObject("Leg Press", "legs", "Quads, Glutes", "Leg Press Machine"),
+                createExerciseObject("Bulgarian Split Squats", "legs", "Quads, Glutes", "Bench & Dumbbells"),
+                createExerciseObject("Walking Lunges", "legs", "Quads, Glutes", "Dumbbells"),
+                createExerciseObject("Romanian Deadlifts (RDLs)", "legs", "Hamstrings, Glutes", "Barbell / Dumbbells"),
+                createExerciseObject("Lying or Seated Leg Curls", "legs", "Hamstrings", "Leg Curl Machine"),
+                createExerciseObject("Hip Thrusts", "legs", "Glutes", "Bench & Barbell"),
+                createExerciseObject("Standing Calf Raises", "legs", "Calves (Gastrocnemius)", "Standing Calf Machine"),
+                createExerciseObject("Seated Calf Raises", "legs", "Calves (Soleus)", "Seated Calf Machine")
             ]
         };
 
@@ -830,11 +663,7 @@
                 muscle: muscle,
                 machine: equipment,
                 image: realImg,
-                yt: `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' form tutorial')}`,
-                sets: [
-                    { weight: 20, reps: 10, done: false },
-                    { weight: 20, reps: 10, done: false }
-                ]
+                yt: `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' form tutorial')}`
             };
         }
 
@@ -898,30 +727,6 @@
                                 Watch Guide
                             </a>
                         </div>
-
-                        <!-- Sets Table Grid -->
-                        <div class="sets-header">
-                            <span>Set</span>
-                            <span>Weight</span>
-                            <span>Reps</span>
-                            <span>Done</span>
-                            <span></span>
-                        </div>
-                        <div>
-                            ${ex.sets.map((set, setIdx) => `
-                                <div class="set-row">
-                                    <span class="set-num">${setIdx + 1}</span>
-                                    <input type="number" class="set-input" value="${set.weight}" 
-                                        onchange="updateSet(${exIdx}, ${setIdx}, 'weight', this.value)">
-                                    <input type="number" class="set-input" value="${set.reps}" 
-                                        onchange="updateSet(${exIdx}, ${setIdx}, 'reps', this.value)">
-                                    <button class="check-btn ${set.done ? 'done' : ''}" 
-                                        onclick="toggleDone(${exIdx}, ${setIdx})">✓</button>
-                                    <button class="delete-set-btn" title="Remove Set" onclick="removeSet(${exIdx}, ${setIdx})">&times;</button>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <button class="add-set-btn" onclick="addSet(${exIdx})">+ Add Set</button>
                     </div>
                 </div>
             `).join('');
@@ -950,32 +755,6 @@
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.textContent.toLowerCase().includes(day));
             });
-            render();
-        }
-
-        function updateSet(exIdx, setIdx, field, value) {
-            workouts[currentDay][exIdx].sets[setIdx][field] = parseFloat(value) || 0;
-            saveState();
-        }
-
-        function toggleDone(exIdx, setIdx) {
-            const status = workouts[currentDay][exIdx].sets[setIdx].done;
-            workouts[currentDay][exIdx].sets[setIdx].done = !status;
-            saveState();
-            render();
-        }
-
-        function addSet(exIdx) {
-            const sets = workouts[currentDay][exIdx].sets;
-            const lastSet = sets[sets.length - 1] || { weight: 0, reps: 0 };
-            sets.push({ weight: lastSet.weight, reps: lastSet.reps, done: false });
-            saveState();
-            render();
-        }
-
-        function removeSet(exIdx, setIdx) {
-            workouts[currentDay][exIdx].sets.splice(setIdx, 1);
-            saveState();
             render();
         }
 
