@@ -116,6 +116,39 @@
             box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
         }
 
+        /* Muscle Group Filter */
+        .muscle-filter-nav {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 8px;
+            scrollbar-width: none;
+        }
+
+        .muscle-filter-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .filter-btn.active {
+            background: var(--accent-light);
+            color: var(--accent);
+            border-color: rgba(255, 69, 0, 0.5);
+        }
+
         /* Targeted Muscles Section */
         .target-section {
             background: linear-gradient(135deg, var(--card-bg), #1d033a);
@@ -203,17 +236,27 @@
         }
 
         .remove-ex-btn {
-            background: transparent;
-            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            line-height: 1;
             cursor: pointer;
-            padding: 0 4px;
-            transition: color 0.2s;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: color 0.2s, background 0.2s, border-color 0.2s;
         }
 
         .remove-ex-btn:hover {
             color: var(--danger);
+            background: var(--danger-light);
+            border-color: rgba(255, 51, 85, 0.4);
         }
 
         .card-actions {
@@ -476,6 +519,9 @@
             <button class="nav-btn" onclick="switchDay('legs')">Legs Day</button>
         </div>
 
+        <!-- Muscle Group Filter -->
+        <div class="muscle-filter-nav" id="muscleFilterNav"></div>
+
         <!-- Targeted Muscles -->
         <div class="target-section">
             <h3>Targeted Muscle Groups</h3>
@@ -562,50 +608,50 @@
         // MASTER EXERCISE LIBRARY DYNAMIC DATA
         const EXERCISE_LIBRARY = [
             // PUSH — Top Chest Exercises
-            { name: "Barbell Bench Press", category: "push", muscle: "Chest", equipment: "Barbell & Bench" },
-            { name: "Dumbbell Bench Press", category: "push", muscle: "Chest", equipment: "Flat Bench & Dumbbells" },
-            { name: "Incline Press", category: "push", muscle: "Upper Chest", equipment: "Incline Bench & Barbell/Dumbbells" },
-            { name: "Chest Dips", category: "push", muscle: "Lower Chest, Front Shoulders", equipment: "Dip Bars" },
-            { name: "Cable Flyes", category: "push", muscle: "Chest", equipment: "Cable Machine" },
+            { name: "Barbell Bench Press", category: "push", muscle: "Chest", equipment: "Barbell & Bench", group: "Chest" },
+            { name: "Dumbbell Bench Press", category: "push", muscle: "Chest", equipment: "Flat Bench & Dumbbells", group: "Chest" },
+            { name: "Incline Press", category: "push", muscle: "Upper Chest", equipment: "Incline Bench & Barbell/Dumbbells", group: "Chest" },
+            { name: "Chest Dips", category: "push", muscle: "Lower Chest, Front Shoulders", equipment: "Dip Bars", group: "Chest" },
+            { name: "Cable Flyes", category: "push", muscle: "Chest", equipment: "Cable Machine", group: "Chest" },
 
             // PUSH — Top Shoulder Exercises
-            { name: "Overhead Press", category: "push", muscle: "Shoulders", equipment: "Barbell / Dumbbells" },
-            { name: "Lateral Raises", category: "push", muscle: "Side Delts", equipment: "Dumbbells / Cables" },
+            { name: "Overhead Press", category: "push", muscle: "Shoulders", equipment: "Barbell / Dumbbells", group: "Shoulders" },
+            { name: "Lateral Raises", category: "push", muscle: "Side Delts", equipment: "Dumbbells / Cables", group: "Shoulders" },
 
             // PUSH — Top Tricep Exercises
-            { name: "Tricep Pushdowns", category: "push", muscle: "Triceps", equipment: "Cable Machine & Rope/Bar" },
-            { name: "Overhead Triceps Extension", category: "push", muscle: "Triceps", equipment: "Cable / Dumbbell" },
-            { name: "Skull Crushers", category: "push", muscle: "Triceps", equipment: "EZ Bar / Dumbbells" },
+            { name: "Tricep Pushdowns", category: "push", muscle: "Triceps", equipment: "Cable Machine & Rope/Bar", group: "Triceps" },
+            { name: "Overhead Triceps Extension", category: "push", muscle: "Triceps", equipment: "Cable / Dumbbell", group: "Triceps" },
+            { name: "Skull Crushers", category: "push", muscle: "Triceps", equipment: "EZ Bar / Dumbbells", group: "Triceps" },
 
             // PULL — Top Back Exercises
-            { name: "Deadlifts", category: "pull", muscle: "Lower Back, Traps, Lats", equipment: "Barbell" },
-            { name: "Pull-Ups or Lat Pulldowns", category: "pull", muscle: "Lats, Back Width", equipment: "Pull-up Bar / Lat Pulldown Station" },
-            { name: "Bent-Over Barbell Rows", category: "pull", muscle: "Back Thickness, Mid-Back", equipment: "Barbell" },
-            { name: "Seated Cable Rows", category: "pull", muscle: "Lats, Rhomboids", equipment: "Seated Row Machine" },
+            { name: "Deadlifts", category: "pull", muscle: "Lower Back, Traps, Lats", equipment: "Barbell", group: "Back" },
+            { name: "Pull-Ups or Lat Pulldowns", category: "pull", muscle: "Lats, Back Width", equipment: "Pull-up Bar / Lat Pulldown Station", group: "Back" },
+            { name: "Bent-Over Barbell Rows", category: "pull", muscle: "Back Thickness, Mid-Back", equipment: "Barbell", group: "Back" },
+            { name: "Seated Cable Rows", category: "pull", muscle: "Lats, Rhomboids", equipment: "Seated Row Machine", group: "Back" },
 
             // PULL — Top Bicep Exercises
-            { name: "Barbell Curls", category: "pull", muscle: "Biceps", equipment: "Barbell" },
-            { name: "Hammer Curls", category: "pull", muscle: "Biceps, Brachialis", equipment: "Dumbbells" },
-            { name: "Incline Dumbbell Curls", category: "pull", muscle: "Biceps (Long Head)", equipment: "Incline Bench & Dumbbells" },
+            { name: "Barbell Curls", category: "pull", muscle: "Biceps", equipment: "Barbell", group: "Biceps" },
+            { name: "Hammer Curls", category: "pull", muscle: "Biceps, Brachialis", equipment: "Dumbbells", group: "Biceps" },
+            { name: "Incline Dumbbell Curls", category: "pull", muscle: "Biceps (Long Head)", equipment: "Incline Bench & Dumbbells", group: "Biceps" },
 
             // PULL — Top Rear Shoulder & Trap Exercises
-            { name: "Face Pulls", category: "pull", muscle: "Rear Delts, Upper Back, Rotator Cuffs", equipment: "Cable & Rope" },
-            { name: "Dumbbell Shrugs", category: "pull", muscle: "Upper Traps", equipment: "Dumbbells" },
+            { name: "Face Pulls", category: "pull", muscle: "Rear Delts, Upper Back, Rotator Cuffs", equipment: "Cable & Rope", group: "Rear Delts & Traps" },
+            { name: "Dumbbell Shrugs", category: "pull", muscle: "Upper Traps", equipment: "Dumbbells", group: "Rear Delts & Traps" },
 
             // LEGS — Top Quad & Glute Exercises
-            { name: "Barbell Back Squats", category: "legs", muscle: "Quads, Glutes", equipment: "Squat Rack & Barbell" },
-            { name: "Leg Press", category: "legs", muscle: "Quads, Glutes", equipment: "Leg Press Machine" },
-            { name: "Bulgarian Split Squats", category: "legs", muscle: "Quads, Glutes", equipment: "Bench & Dumbbells" },
-            { name: "Walking Lunges", category: "legs", muscle: "Quads, Glutes", equipment: "Dumbbells" },
+            { name: "Barbell Back Squats", category: "legs", muscle: "Quads, Glutes", equipment: "Squat Rack & Barbell", group: "Quads & Glutes" },
+            { name: "Leg Press", category: "legs", muscle: "Quads, Glutes", equipment: "Leg Press Machine", group: "Quads & Glutes" },
+            { name: "Bulgarian Split Squats", category: "legs", muscle: "Quads, Glutes", equipment: "Bench & Dumbbells", group: "Quads & Glutes" },
+            { name: "Walking Lunges", category: "legs", muscle: "Quads, Glutes", equipment: "Dumbbells", group: "Quads & Glutes" },
 
             // LEGS — Top Hamstring & Glute Exercises
-            { name: "Romanian Deadlifts (RDLs)", category: "legs", muscle: "Hamstrings, Glutes", equipment: "Barbell / Dumbbells" },
-            { name: "Lying or Seated Leg Curls", category: "legs", muscle: "Hamstrings", equipment: "Leg Curl Machine" },
-            { name: "Hip Thrusts", category: "legs", muscle: "Glutes", equipment: "Bench & Barbell" },
+            { name: "Romanian Deadlifts (RDLs)", category: "legs", muscle: "Hamstrings, Glutes", equipment: "Barbell / Dumbbells", group: "Hamstrings & Glutes" },
+            { name: "Lying or Seated Leg Curls", category: "legs", muscle: "Hamstrings", equipment: "Leg Curl Machine", group: "Hamstrings & Glutes" },
+            { name: "Hip Thrusts", category: "legs", muscle: "Glutes", equipment: "Bench & Barbell", group: "Hamstrings & Glutes" },
 
             // LEGS — Top Calf Exercises
-            { name: "Standing Calf Raises", category: "legs", muscle: "Calves (Gastrocnemius)", equipment: "Standing Calf Machine" },
-            { name: "Seated Calf Raises", category: "legs", muscle: "Calves (Soleus)", equipment: "Seated Calf Machine" }
+            { name: "Standing Calf Raises", category: "legs", muscle: "Calves (Gastrocnemius)", equipment: "Standing Calf Machine", group: "Calves" },
+            { name: "Seated Calf Raises", category: "legs", muscle: "Calves (Soleus)", equipment: "Seated Calf Machine", group: "Calves" }
         ];
 
         // Attach dynamic real images to full library
@@ -616,44 +662,45 @@
         // Initial Workout State
         let workouts = {
             push: [
-                createExerciseObject("Barbell Bench Press", "push", "Chest", "Barbell & Bench"),
-                createExerciseObject("Incline Press", "push", "Upper Chest", "Incline Bench & Barbell/Dumbbells"),
-                createExerciseObject("Chest Dips", "push", "Lower Chest, Front Shoulders", "Dip Bars"),
-                createExerciseObject("Cable Flyes", "push", "Chest", "Cable Machine"),
-                createExerciseObject("Overhead Press", "push", "Shoulders", "Barbell / Dumbbells"),
-                createExerciseObject("Lateral Raises", "push", "Side Delts", "Dumbbells / Cables"),
-                createExerciseObject("Tricep Pushdowns", "push", "Triceps", "Cable Machine & Rope/Bar"),
-                createExerciseObject("Overhead Triceps Extension", "push", "Triceps", "Cable / Dumbbell"),
-                createExerciseObject("Skull Crushers", "push", "Triceps", "EZ Bar / Dumbbells")
+                createExerciseObject("Barbell Bench Press", "push", "Chest", "Barbell & Bench", "Chest"),
+                createExerciseObject("Incline Press", "push", "Upper Chest", "Incline Bench & Barbell/Dumbbells", "Chest"),
+                createExerciseObject("Chest Dips", "push", "Lower Chest, Front Shoulders", "Dip Bars", "Chest"),
+                createExerciseObject("Cable Flyes", "push", "Chest", "Cable Machine", "Chest"),
+                createExerciseObject("Overhead Press", "push", "Shoulders", "Barbell / Dumbbells", "Shoulders"),
+                createExerciseObject("Lateral Raises", "push", "Side Delts", "Dumbbells / Cables", "Shoulders"),
+                createExerciseObject("Tricep Pushdowns", "push", "Triceps", "Cable Machine & Rope/Bar", "Triceps"),
+                createExerciseObject("Overhead Triceps Extension", "push", "Triceps", "Cable / Dumbbell", "Triceps"),
+                createExerciseObject("Skull Crushers", "push", "Triceps", "EZ Bar / Dumbbells", "Triceps")
             ],
             pull: [
-                createExerciseObject("Deadlifts", "pull", "Lower Back, Traps, Lats", "Barbell"),
-                createExerciseObject("Pull-Ups or Lat Pulldowns", "pull", "Lats, Back Width", "Pull-up Bar / Lat Pulldown Station"),
-                createExerciseObject("Bent-Over Barbell Rows", "pull", "Back Thickness, Mid-Back", "Barbell"),
-                createExerciseObject("Seated Cable Rows", "pull", "Lats, Rhomboids", "Seated Row Machine"),
-                createExerciseObject("Barbell Curls", "pull", "Biceps", "Barbell"),
-                createExerciseObject("Hammer Curls", "pull", "Biceps, Brachialis", "Dumbbells"),
-                createExerciseObject("Incline Dumbbell Curls", "pull", "Biceps (Long Head)", "Incline Bench & Dumbbells"),
-                createExerciseObject("Face Pulls", "pull", "Rear Delts, Upper Back, Rotator Cuffs", "Cable & Rope"),
-                createExerciseObject("Dumbbell Shrugs", "pull", "Upper Traps", "Dumbbells")
+                createExerciseObject("Deadlifts", "pull", "Lower Back, Traps, Lats", "Barbell", "Back"),
+                createExerciseObject("Pull-Ups or Lat Pulldowns", "pull", "Lats, Back Width", "Pull-up Bar / Lat Pulldown Station", "Back"),
+                createExerciseObject("Bent-Over Barbell Rows", "pull", "Back Thickness, Mid-Back", "Barbell", "Back"),
+                createExerciseObject("Seated Cable Rows", "pull", "Lats, Rhomboids", "Seated Row Machine", "Back"),
+                createExerciseObject("Barbell Curls", "pull", "Biceps", "Barbell", "Biceps"),
+                createExerciseObject("Hammer Curls", "pull", "Biceps, Brachialis", "Dumbbells", "Biceps"),
+                createExerciseObject("Incline Dumbbell Curls", "pull", "Biceps (Long Head)", "Incline Bench & Dumbbells", "Biceps"),
+                createExerciseObject("Face Pulls", "pull", "Rear Delts, Upper Back, Rotator Cuffs", "Cable & Rope", "Rear Delts & Traps"),
+                createExerciseObject("Dumbbell Shrugs", "pull", "Upper Traps", "Dumbbells", "Rear Delts & Traps")
             ],
             legs: [
-                createExerciseObject("Barbell Back Squats", "legs", "Quads, Glutes", "Squat Rack & Barbell"),
-                createExerciseObject("Leg Press", "legs", "Quads, Glutes", "Leg Press Machine"),
-                createExerciseObject("Bulgarian Split Squats", "legs", "Quads, Glutes", "Bench & Dumbbells"),
-                createExerciseObject("Walking Lunges", "legs", "Quads, Glutes", "Dumbbells"),
-                createExerciseObject("Romanian Deadlifts (RDLs)", "legs", "Hamstrings, Glutes", "Barbell / Dumbbells"),
-                createExerciseObject("Lying or Seated Leg Curls", "legs", "Hamstrings", "Leg Curl Machine"),
-                createExerciseObject("Hip Thrusts", "legs", "Glutes", "Bench & Barbell"),
-                createExerciseObject("Standing Calf Raises", "legs", "Calves (Gastrocnemius)", "Standing Calf Machine"),
-                createExerciseObject("Seated Calf Raises", "legs", "Calves (Soleus)", "Seated Calf Machine")
+                createExerciseObject("Barbell Back Squats", "legs", "Quads, Glutes", "Squat Rack & Barbell", "Quads & Glutes"),
+                createExerciseObject("Leg Press", "legs", "Quads, Glutes", "Leg Press Machine", "Quads & Glutes"),
+                createExerciseObject("Bulgarian Split Squats", "legs", "Quads, Glutes", "Bench & Dumbbells", "Quads & Glutes"),
+                createExerciseObject("Walking Lunges", "legs", "Quads, Glutes", "Dumbbells", "Quads & Glutes"),
+                createExerciseObject("Romanian Deadlifts (RDLs)", "legs", "Hamstrings, Glutes", "Barbell / Dumbbells", "Hamstrings & Glutes"),
+                createExerciseObject("Lying or Seated Leg Curls", "legs", "Hamstrings", "Leg Curl Machine", "Hamstrings & Glutes"),
+                createExerciseObject("Hip Thrusts", "legs", "Glutes", "Bench & Barbell", "Hamstrings & Glutes"),
+                createExerciseObject("Standing Calf Raises", "legs", "Calves (Gastrocnemius)", "Standing Calf Machine", "Calves"),
+                createExerciseObject("Seated Calf Raises", "legs", "Calves (Soleus)", "Seated Calf Machine", "Calves")
             ]
         };
 
         let currentDay = 'push';
+        let currentMuscleFilter = 'all';
 
         // Helper function to create exercise object with real high quality image
-        function createExerciseObject(name, category, muscle, equipment) {
+        function createExerciseObject(name, category, muscle, equipment, group) {
             const realImg = getImageForExercise(name, category, muscle);
             
             return {
@@ -662,6 +709,7 @@
                 category: category,
                 muscle: muscle,
                 machine: equipment,
+                group: group || 'Other',
                 image: realImg,
                 yt: `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' form tutorial')}`
             };
@@ -672,11 +720,16 @@
             if (saved) {
                 try {
                     workouts = JSON.parse(saved);
-                    // Automatically upgrade older placeholder images if existing
+                    delete workouts.cardio; // legacy day, no longer supported
+                    // Automatically upgrade older placeholder images / missing groups if existing
                     Object.keys(workouts).forEach(day => {
                         workouts[day].forEach(ex => {
                             if (!ex.image || ex.image.includes('placehold.co')) {
                                 ex.image = getImageForExercise(ex.name, ex.category || day, ex.muscle || '');
+                            }
+                            if (!ex.group) {
+                                const libMatch = EXERCISE_LIBRARY.find(item => item.name === ex.name);
+                                ex.group = libMatch ? libMatch.group : 'Other';
                             }
                         });
                     });
@@ -697,9 +750,37 @@
 
         function render() {
             const currentExercises = workouts[currentDay] || [];
-            
-            // Render Dynamic Targeted Muscle Tags
-            const muscles = [...new Set(currentExercises.map(ex => ex.muscle).flatMap(m => m.split(', ')))];
+
+            // Pair each exercise with its real index in the array (needed once we filter the view)
+            const indexed = currentExercises.map((ex, idx) => ({ ex, idx }));
+
+            // Distinct muscle groups present in this day, used to build the filter pills
+            const groupsInDay = [...new Set(currentExercises.map(ex => ex.group).filter(Boolean))];
+            if (currentMuscleFilter !== 'all' && !groupsInDay.includes(currentMuscleFilter)) {
+                currentMuscleFilter = 'all';
+            }
+
+            // Render Muscle Group Filter Pills
+            const filterContainer = document.getElementById('muscleFilterNav');
+            if (groupsInDay.length > 0) {
+                filterContainer.style.display = 'flex';
+                filterContainer.innerHTML = ['all', ...groupsInDay].map(g => `
+                    <button class="filter-btn ${currentMuscleFilter === g ? 'active' : ''}" onclick="setMuscleFilter('${g.replace(/'/g, "\\'")}')">
+                        ${g === 'all' ? 'All' : g}
+                    </button>
+                `).join('');
+            } else {
+                filterContainer.style.display = 'none';
+                filterContainer.innerHTML = '';
+            }
+
+            // Apply the active muscle filter
+            const visible = currentMuscleFilter === 'all'
+                ? indexed
+                : indexed.filter(item => item.ex.group === currentMuscleFilter);
+
+            // Render Dynamic Targeted Muscle Tags — matches whatever is currently filtered/visible
+            const muscles = [...new Set(visible.map(item => item.ex.muscle).flatMap(m => m.split(', ')))];
             const muscleTagsContainer = document.getElementById('muscleTags');
             muscleTagsContainer.innerHTML = muscles.length > 0 
                 ? muscles.map(m => `<span class="tag">${m}</span>`).join('')
@@ -707,7 +788,7 @@
 
             // Render Exercises Cards (with Card Image header)
             const listContainer = document.getElementById('exerciseList');
-            listContainer.innerHTML = currentExercises.map((ex, exIdx) => `
+            listContainer.innerHTML = visible.map(({ ex, idx: exIdx }) => `
                 <div class="card">
                     <!-- EXERCISE REAL IMAGE -->
                     <div class="card-header-img-wrapper">
@@ -732,12 +813,19 @@
             `).join('');
         }
 
+        /* Set the active muscle-group filter for the current day */
+        function setMuscleFilter(group) {
+            currentMuscleFilter = group;
+            render();
+        }
+
         /* Set Default Exercises according to active day */
         function setDefaultExercises() {
             const defaultList = EXERCISE_LIBRARY.filter(item => item.category === currentDay);
             workouts[currentDay] = defaultList.map(item => 
-                createExerciseObject(item.name, item.category, item.muscle, item.equipment)
+                createExerciseObject(item.name, item.category, item.muscle, item.equipment, item.group)
             );
+            currentMuscleFilter = 'all';
             saveState();
             render();
         }
@@ -745,6 +833,7 @@
         /* Clear Exercise List according to active day */
         function clearList() {
             workouts[currentDay] = [];
+            currentMuscleFilter = 'all';
             saveState();
             render();
         }
@@ -752,6 +841,7 @@
         /* UI Handlers */
         function switchDay(day) {
             currentDay = day;
+            currentMuscleFilter = 'all';
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.textContent.toLowerCase().includes(day));
             });
@@ -794,7 +884,7 @@
         function renderLibrary(items) {
             const container = document.getElementById('libraryList');
             container.innerHTML = items.map(item => `
-                <div class="library-item" onclick="selectFromLibrary('${item.name.replace(/'/g, "\\'")}', '${item.category}', '${item.muscle.replace(/'/g, "\\'")}', '${item.equipment.replace(/'/g, "\\'")}')">
+                <div class="library-item" onclick="selectFromLibrary('${item.name.replace(/'/g, "\\'")}', '${item.category}', '${item.muscle.replace(/'/g, "\\'")}', '${item.equipment.replace(/'/g, "\\'")}', '${(item.group || 'Other').replace(/'/g, "\\'")}')">
                     <img src="${item.image}" class="library-item-img" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80'">
                     <div class="item-info">
                         <h4>${item.name}</h4>
@@ -815,8 +905,8 @@
             renderLibrary(filtered);
         }
 
-        function selectFromLibrary(name, category, muscle, equipment) {
-            const newEx = createExerciseObject(name, category || currentDay, muscle, equipment);
+        function selectFromLibrary(name, category, muscle, equipment, group) {
+            const newEx = createExerciseObject(name, category || currentDay, muscle, equipment, group);
             workouts[currentDay].push(newEx);
             saveState();
             render();
